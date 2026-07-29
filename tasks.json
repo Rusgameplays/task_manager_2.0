@@ -1,0 +1,16 @@
+[
+    {
+        "id": "RF",
+        "second_id": "SD",
+        "name": "АС МИР",
+        "full_name": "657. АС МИРОВАЯ",
+        "type": "ПСИ",
+        "mp8": "82",
+        "secure": "Да",
+        "status": "Приостановлено",
+        "pentest/audit": "Завершен",
+        "compliance": "Запущен",
+        "comment": "Сканирование АС МИР (RF) - SD",
+        "folder_id": "6d98ea3b-46b8-4add-9cf7-6acac10066f7"
+    }
+]

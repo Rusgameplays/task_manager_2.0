@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="a35cc665-4ed1-44ee-9979-1f8f5388e563" name="Changes" comment="v2.0">
+      <change afterPath="$PROJECT_DIR$/.idea/TaskManager2.0.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/controllers/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/host_repository.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/report_repository.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/task_repository.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/task.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/report.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/assets/fonts/CustomTkinter_shapes_font.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/assets/fonts/Roboto/Roboto-Medium.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/assets/fonts/Roboto/Roboto-Regular.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/assets/icons/CustomTkinter_icon_Windows.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/assets/themes/blue.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/assets/themes/dark-blue.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/assets/themes/gold.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/assets/themes/green.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/ctk_input_dialog.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/ctk_tk.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/ctk_toplevel.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/appearance_mode/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/appearance_mode/appearance_mode_base_class.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/appearance_mode/appearance_mode_tracker.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/core_rendering/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/core_rendering/ctk_canvas.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/core_rendering/draw_engine.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/core_widget_classes/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/core_widget_classes/ctk_base_class.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/core_widget_classes/dropdown_menu.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/ctk_button.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/ctk_checkbox.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/ctk_combobox.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/ctk_entry.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/ctk_frame.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/ctk_label.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/ctk_optionmenu.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/ctk_progressbar.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/ctk_radiobutton.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/ctk_scrollable_frame.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/ctk_scrollbar.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/ctk_segmented_button.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/ctk_slider.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/ctk_switch.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/ctk_tabview.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/ctk_textbox.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/font/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/font/ctk_font.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/font/font_manager.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/image/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/image/ctk_image.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/scaling/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/scaling/scaling_base_class.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/scaling/scaling_tracker.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/theme/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/theme/theme_manager.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/utility/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customtkinter/windows/widgets/utility/utility_functions.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/darkdetect/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/darkdetect/__main__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/darkdetect/_dummy.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/darkdetect/_linux_detect.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/darkdetect/_mac_detect.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/darkdetect/_windows_detect.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/packaging/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/packaging/_elffile.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/packaging/_manylinux.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/packaging/_musllinux.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/packaging/_parser.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/packaging/_ranges.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/packaging/_structures.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/packaging/_tokenizer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/packaging/dependency_groups.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/packaging/direct_url.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/packaging/errors.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/packaging/licenses/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/packaging/licenses/_spdx.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/packaging/markers.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/packaging/metadata.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/packaging/py.typed" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/packaging/pylock.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/packaging/ranges.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/packaging/requirements.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/packaging/specifiers.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/packaging/tags.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/packaging/utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/packaging/version.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tasks.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ui/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ui/app.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ui/comment_box.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ui/details_panel.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ui/dialogs/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ui/dialogs/confirm_dialog.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ui/dialogs/new_task_dialog.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ui/info_row.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ui/report_window.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ui/sidebar.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ui/system_card.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ui/theme.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ui/toolbar.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/parser.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/widgets/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/widgets/action_bar.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/widgets/host_row.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/widgets/hosts_table.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/widgets/labeled_field.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/widgets/status_card.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2,
+  &quot;fromUser&quot;: false
+}</component>
+  <component name="ProjectId" id="3GLjbcn6O7WnQwGy52pG3iaz3f3" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/solod/PycharmProjects/TaskManager2.0/src&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-c59985aa861c-c2ffad84badb-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-261.24374.152" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a35cc665-4ed1-44ee-9979-1f8f5388e563" name="Changes" comment="" />
+      <created>1783757815451</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1783757815451</updated>
+      <workItem from="1783757816474" duration="7207000" />
+      <workItem from="1783775375795" duration="13334000" />
+      <workItem from="1783794610598" duration="31000" />
+      <workItem from="1783795026663" duration="34000" />
+      <workItem from="1783803150645" duration="2627000" />
+      <workItem from="1783850327195" duration="153000" />
+      <workItem from="1783851857477" duration="38000" />
+      <workItem from="1783925519967" duration="1365000" />
+      <workItem from="1784044984786" duration="10000" />
+      <workItem from="1784111489665" duration="4197000" />
+      <workItem from="1784578801796" duration="626000" />
+      <workItem from="1784740789172" duration="613000" />
+      <workItem from="1784803249073" duration="597000" />
+      <workItem from="1784979199967" duration="62000" />
+      <workItem from="1785262259043" duration="1090000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="v2.0" />
+    <option name="LAST_COMMIT_MESSAGE" value="v2.0" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/TaskManager2_0$main.coverage" NAME="main Coverage Results" MODIFIED="1785262694278" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>
