@@ -106,6 +106,26 @@ class DetailsPanel(ctk.CTkFrame):
             sticky="w"
         )
 
+        self.copy_rf = ctk.CTkButton(
+            self.card,
+            text="📋",
+            width=28,
+            height=28,
+            fg_color="transparent",
+            hover_color="#3A3A3A",
+            command=lambda: self.copy_to_clipboard(
+                self.current_task.rf
+            )
+        )
+
+        self.copy_rf.grid(
+            row=0,
+            column=1,
+            padx=(0, 25),
+            pady=(20, 5),
+            sticky="w"
+        )
+
         # Краткое название
 
         self.name_label = ctk.CTkLabel(
@@ -492,13 +512,13 @@ class DetailsPanel(ctk.CTkFrame):
         )
         self.right.grid_rowconfigure(0, weight=1)
 
-
     def copy_ips(self, mode):
 
         if self.current_task and self.on_copy_ips:
             self.on_copy_ips(
                 self.current_task,
-                mode
+                mode,
+                self.hosts.get_visible_ips()
             )
 
     def build_layout(self):

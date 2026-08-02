@@ -161,7 +161,7 @@ class SystemCard(ctk.CTkFrame):
     def get_type_color(self):
 
         colors = {
-            "ПСИ": "#2E86DE",
+            "ПСИ": "#EC4899",
             "Подключение": "#27AE60",
             "Актуализация": "#F39C12",
             "Другое": "#6C757D"

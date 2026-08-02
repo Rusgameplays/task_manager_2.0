@@ -19,19 +19,27 @@ def extract_docx_table(path):
 
         row = []
 
-        for tc in tr.findall(".//w:tc", ns):
+        for tc in tr.findall("./w:tc", ns):
 
-            text = "".join(
-                t.text or ""
-                for t in tc.findall(".//w:t", ns)
-            ).strip()
+            paragraphs = []
 
-            row.append(text)
+            for p in tc.findall("./w:p", ns):
 
-        if any(row):
+                text = "".join(
+                    t.text or ""
+                    for t in p.findall(".//w:t", ns)
+                ).strip()
+
+                if text:
+                    paragraphs.append(text)
+
+            row.append(" ".join(paragraphs))
+
+        if any(cell for cell in row):
             rows.append(row)
 
     return rows
+
 
 def parse_hosts(path):
 
@@ -42,9 +50,7 @@ def parse_hosts(path):
 
     hosts = []
 
-
     for row in rows[1:]:
-
 
         if len(row) < 9:
             continue
@@ -52,7 +58,7 @@ def parse_hosts(path):
         hosts.append({
             "OS": row[1],
             "DB": row[2],
-            "Instances": row[3],
+            "Instances": " ".join(row[3].split()),
             "Window": row[5],
             "IP": row[6],
             "Segment": row[8]

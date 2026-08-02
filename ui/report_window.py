@@ -45,7 +45,11 @@ class ReportWindow(ctk.CTkToplevel):
             pady=(20, 15)
         )
 
-        self.table = ctk.CTkFrame(
+        # ======================================================
+        # Table
+        # ======================================================
+
+        self.table_frame = ctk.CTkFrame(
             self,
             fg_color=CARD,
             corner_radius=10,
@@ -53,7 +57,7 @@ class ReportWindow(ctk.CTkToplevel):
             border_color=BORDER
         )
 
-        self.table.grid(
+        self.table_frame.grid(
             row=1,
             column=0,
             padx=20,
@@ -61,7 +65,25 @@ class ReportWindow(ctk.CTkToplevel):
             sticky="nsew"
         )
 
-        self.table.grid_columnconfigure((0, 1, 2), weight=1)
+        self.table_frame.grid_columnconfigure(0, weight=1)
+        self.table_frame.grid_rowconfigure(1, weight=1)
+
+        # ---------------- Header ----------------
+
+        self.header = ctk.CTkFrame(
+            self.table_frame,
+            fg_color="transparent"
+        )
+
+        self.header.grid(
+            row=0,
+            column=0,
+            sticky="ew",
+            padx=10,
+            pady=(10, 6)
+        )
+
+        self.header.grid_columnconfigure((0, 1, 2), weight=1)
 
         headers = [
             "Неделя",
@@ -72,16 +94,34 @@ class ReportWindow(ctk.CTkToplevel):
         for i, text in enumerate(headers):
 
             ctk.CTkLabel(
-                self.table,
+                self.header,
                 text=text,
                 font=("Segoe UI", 13, "bold")
             ).grid(
                 row=0,
                 column=i,
                 padx=10,
-                pady=10,
                 sticky="ew"
             )
+
+        # ---------------- Scrollable body ----------------
+
+        self.table = ctk.CTkScrollableFrame(
+            self.table_frame,
+            fg_color="transparent"
+        )
+
+        self.table.grid(
+            row=1,
+            column=0,
+            sticky="nsew",
+            padx=10,
+            pady=(0, 10)
+        )
+
+        self.table.grid_columnconfigure((0, 1, 2), weight=1)
+
+        # ======================================================
 
         self.add_button = ctk.CTkButton(
             self,
@@ -101,12 +141,10 @@ class ReportWindow(ctk.CTkToplevel):
 
     def refresh(self):
 
-        for widget in self.table.grid_slaves():
+        for widget in self.table.winfo_children():
+            widget.destroy()
 
-            if widget.grid_info()["row"] != 0:
-                widget.destroy()
-
-        for row, week in enumerate(self.report, start=1):
+        for row, week in enumerate(self.report):
 
             ctk.CTkLabel(
                 self.table,
@@ -161,7 +199,7 @@ class ReportWindow(ctk.CTkToplevel):
             height=28,
             command=lambda:
             self.change_value(
-                row - 1,
+                row,
                 field,
                 -1
             )
@@ -181,7 +219,7 @@ class ReportWindow(ctk.CTkToplevel):
             height=28,
             command=lambda:
             self.change_value(
-                row - 1,
+                row,
                 field,
                 1
             )
@@ -234,11 +272,9 @@ class ReportWindow(ctk.CTkToplevel):
         }
 
         if current not in weeks:
-
             week = current
 
         elif next_week not in weeks:
-
             week = next_week
 
         else:

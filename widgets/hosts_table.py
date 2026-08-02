@@ -45,7 +45,7 @@ class HostsTable(ctk.CTkFrame):
             pady=(0, 10)
         )
 
-        self.top.grid_columnconfigure(1, weight=1)
+        self.top.grid_columnconfigure(0, weight=1)
 
         self.title = ctk.CTkLabel(
             self.top,
@@ -59,17 +59,42 @@ class HostsTable(ctk.CTkFrame):
             sticky="w"
         )
 
+        self.os_filter = ctk.CTkComboBox(
+            self.top,
+            values=["Все"],
+            width=110,
+            command=lambda _: self.apply_filters()
+        )
+
+        self.os_filter.grid(
+            row=0,
+            column=1,
+            padx=(0, 8)
+        )
+
+        self.db_filter = ctk.CTkComboBox(
+            self.top,
+            values=["Все"],
+            width=120,
+            command=lambda _: self.apply_filters()
+        )
+
+        self.db_filter.grid(
+            row=0,
+            column=2,
+            padx=(0, 8)
+        )
+
         self.segment_filter = ctk.CTkComboBox(
             self.top,
             values=["Все"],
-            width=170,
-            command=self.segment_changed
+            width=130,
+            command=lambda _: self.apply_filters()
         )
 
         self.segment_filter.grid(
             row=0,
-            column=2,
-            sticky="e"
+            column=3
         )
 
         self.stats_label = ctk.CTkLabel(
@@ -82,7 +107,7 @@ class HostsTable(ctk.CTkFrame):
         self.stats_label.grid(
             row=1,
             column=0,
-            columnspan=3,
+            columnspan=4,
             sticky="w",
             pady=(8, 0)
         )
@@ -164,16 +189,38 @@ class HostsTable(ctk.CTkFrame):
 
         self.all_hosts = rows
 
-        segments = sorted({
+        os_values = sorted({
+            h.get("OS", "")
+            for h in rows
+            if h.get("OS")
+        })
+
+        db_values = sorted({
+            h.get("DB", "")
+            for h in rows
+            if h.get("DB")
+        })
+
+        segment_values = sorted({
             h.get("Segment", "")
             for h in rows
             if h.get("Segment")
         })
 
-        self.segment_filter.configure(
-            values=["Все"] + segments
+        self.os_filter.configure(
+            values=["Все"] + os_values
         )
 
+        self.db_filter.configure(
+            values=["Все"] + db_values
+        )
+
+        self.segment_filter.configure(
+            values=["Все"] + segment_values
+        )
+
+        self.os_filter.set("Все")
+        self.db_filter.set("Все")
         self.segment_filter.set("Все")
 
         self.filtered_hosts = rows
@@ -236,16 +283,35 @@ class HostsTable(ctk.CTkFrame):
 
     # ==========================================================
 
-    def segment_changed(self, value):
+    def apply_filters(self):
 
-        if value == "Все":
-            self.filtered_hosts = self.all_hosts
-        else:
-            self.filtered_hosts = [
-                host
-                for host in self.all_hosts
-                if host.get("Segment") == value
-            ]
+        os_value = self.os_filter.get()
+        db_value = self.db_filter.get()
+        segment_value = self.segment_filter.get()
+
+        self.filtered_hosts = []
+
+        for host in self.all_hosts:
+
+            if (
+                    os_value != "Все"
+                    and host.get("OS") != os_value
+            ):
+                continue
+
+            if (
+                    db_value != "Все"
+                    and host.get("DB") != db_value
+            ):
+                continue
+
+            if (
+                    segment_value != "Все"
+                    and host.get("Segment") != segment_value
+            ):
+                continue
+
+            self.filtered_hosts.append(host)
 
         self.refresh()
 

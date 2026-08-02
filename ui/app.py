@@ -1,4 +1,6 @@
+import os
 import shutil
+import sys
 import uuid
 
 import customtkinter as ctk
@@ -251,10 +253,23 @@ class App(ctk.CTk):
             exist_ok=True
         )
 
-        subprocess.run([
-            "open",
-            str(folder)
-        ])
+        if sys.platform.startswith("win"):
+
+            os.startfile(folder)
+
+        elif sys.platform == "darwin":
+
+            subprocess.run([
+                "open",
+                str(folder)
+            ])
+
+        else:
+
+            subprocess.run([
+                "xdg-open",
+                str(folder)
+            ])
 
     def delete_task(self, task):
 
@@ -323,15 +338,7 @@ class App(ctk.CTk):
 
         print(f"Импортировано {len(hosts)} записей")
 
-    def copy_ips(self, task, mode):
-
-        hosts = self.host_repository.load(task.folder_id)
-
-        ips = [
-            host["IP"]
-            for host in hosts
-            if host.get("IP")
-        ]
+    def copy_ips(self, task, mode, ips):
 
         if mode == "lines":
             text = "\n".join(ips)

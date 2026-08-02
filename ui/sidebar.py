@@ -13,7 +13,7 @@ class Sidebar(ctk.CTkFrame):
     ):
         super().__init__(
             master,
-            width=320,
+            width=350,
             corner_radius=0,
             fg_color=SIDEBAR
         )
