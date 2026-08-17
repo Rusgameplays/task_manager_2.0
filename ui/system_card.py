@@ -83,8 +83,24 @@ class SystemCard(ctk.CTkFrame):
             pady=(2, 2)
         )
 
-        self.type_badge = ctk.CTkLabel(
+        # ---------- Контейнер бейджей ----------
+
+        self.badges = ctk.CTkFrame(
             self,
+            fg_color="transparent"
+        )
+
+        self.badges.grid(
+            row=2,
+            column=1,
+            sticky="w",
+            pady=(2, 10)
+        )
+
+        # ---------- Тип ----------
+
+        self.type_badge = ctk.CTkLabel(
+            self.badges,
             text=self.task.type,
             fg_color=self.get_type_color(),
             text_color="white",
@@ -94,11 +110,45 @@ class SystemCard(ctk.CTkFrame):
             font=("Segoe UI", 10, "bold")
         )
 
-        self.type_badge.grid(
-            row=2,
-            column=1,
-            sticky="w",
-            pady=(2, 10)
+        self.type_badge.pack(
+            side="left",
+            padx=(0, 4)
+        )
+
+        # ---------- Пентест ----------
+
+        self.pentest_badge = ctk.CTkLabel(
+            self.badges,
+            text="P/A",
+            fg_color=self.get_pentest_color(),
+            text_color="white",
+            corner_radius=6,
+            padx=8,
+            height=20,
+            font=("Segoe UI", 10, "bold")
+        )
+
+        self.pentest_badge.pack(
+            side="left",
+            padx=4
+        )
+
+        # ---------- СКИБ ----------
+
+        self.compliance_badge = ctk.CTkLabel(
+            self.badges,
+            text="C",
+            fg_color=self.get_compliance_color(),
+            text_color="white",
+            corner_radius=6,
+            padx=8,
+            height=20,
+            font=("Segoe UI", 10, "bold")
+        )
+
+        self.compliance_badge.pack(
+            side="left",
+            padx=4
         )
 
     def bind_events(self):
@@ -108,7 +158,10 @@ class SystemCard(ctk.CTkFrame):
             self.indicator,
             self.rf_label,
             self.name_label,
-            self.type_badge
+            self.badges,
+            self.type_badge,
+            self.pentest_badge,
+            self.compliance_badge
         )
 
         for widget in widgets:
@@ -158,6 +211,14 @@ class SystemCard(ctk.CTkFrame):
             fg_color=color
         )
 
+        self.pentest_badge.configure(
+            fg_color=self.get_pentest_color()
+        )
+
+        self.compliance_badge.configure(
+            fg_color=self.get_compliance_color()
+        )
+
     def get_type_color(self):
 
         colors = {
@@ -169,5 +230,31 @@ class SystemCard(ctk.CTkFrame):
 
         return colors.get(
             self.task.type,
+            "#6C757D"
+        )
+
+    def get_pentest_color(self):
+
+        colors = {
+            "Не запущен": "#E74C3C",
+            "Запущен": "#F39C12",
+            "Завершен": "#27AE60"
+        }
+
+        return colors.get(
+            self.task.pentest_audit,
+            "#6C757D"
+        )
+
+    def get_compliance_color(self):
+
+        colors = {
+            "Не запущен": "#E74C3C",
+            "Запущен": "#F39C12",
+            "Завершен": "#27AE60"
+        }
+
+        return colors.get(
+            self.task.compliance,
             "#6C757D"
         )
