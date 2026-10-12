@@ -258,3 +258,14 @@ class SystemCard(ctk.CTkFrame):
             self.task.compliance,
             "#6C757D"
         )
+
+    def update_from_task(self):
+        self.rf_label.configure(text=self.task.rf)
+        self.name_label.configure(text=self.task.name)
+
+        self.type_badge.configure(
+            text=self.task.type,
+            fg_color=self.get_type_color()
+        )
+
+        self.update_status()

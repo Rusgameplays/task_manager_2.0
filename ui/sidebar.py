@@ -9,7 +9,8 @@ class Sidebar(ctk.CTkFrame):
             self,
             master,
             on_task_selected=None,
-            on_filter_changed=None
+            on_filter_changed=None,
+            on_bulk_delete=None
     ):
         super().__init__(
             master,
@@ -18,11 +19,12 @@ class Sidebar(ctk.CTkFrame):
             fg_color=SIDEBAR
         )
 
-
         self.selected_card = None
         self.cards = []
+        self.card_by_task = {}
         self.on_filter_changed = on_filter_changed
         self.on_task_selected = on_task_selected
+        self.on_bulk_delete = on_bulk_delete
         self.build_ui()
 
     def build_ui(self):
@@ -76,8 +78,29 @@ class Sidebar(ctk.CTkFrame):
 
         self.filter.set("В работе")
 
+        self.after(
+            100,
+            lambda: self.filter_changed("В работе")
+        )
+
         self.filter.grid(
             row=2,
+            column=0,
+            padx=15,
+            pady=(0, 10),
+            sticky="ew"
+        )
+
+        self.bulk_delete_button = ctk.CTkButton(
+            self,
+            text="Массовое удаление",
+            fg_color="#C0392B",
+            hover_color="#922B21",
+            command=self.open_bulk_delete
+        )
+
+        self.bulk_delete_button.grid(
+            row=3,
             column=0,
             padx=15,
             pady=(0, 10),
@@ -91,22 +114,23 @@ class Sidebar(ctk.CTkFrame):
         )
 
         self.scroll.grid(
-            row=3,
+            row=4,
             column=0,
             padx=10,
             pady=0,
             sticky="nsew"
         )
 
-
-
-        self.grid_rowconfigure(3, weight=1)
+        self.grid_rowconfigure(4, weight=1)
         self.grid_columnconfigure(0, weight=1)
 
     def clear(self):
         for card in self.cards:
             card.destroy()
+
         self.cards.clear()
+        self.card_by_task.clear()
+        self.selected_card = None
 
     def card_clicked(self, task):
 
@@ -128,16 +152,30 @@ class Sidebar(ctk.CTkFrame):
             self.on_task_selected(card.task)
 
     def load_tasks(self, tasks):
-
-        self.clear()
+        visible_ids = set()
 
         for index, task in enumerate(tasks):
-            card = SystemCard(
-                self.scroll,
-                task,
-                command=self.card_clicked
-            )
+            task_id = id(task)
+            visible_ids.add(task_id)
 
+            card = self.card_by_task.get(task_id)
+
+            # Создаём карточку только при первом появлении задачи
+            if card is None:
+                card = SystemCard(
+                    self.scroll,
+                    task,
+                    command=self.card_clicked
+                )
+
+                self.card_by_task[task_id] = card
+                self.cards.append(card)
+
+            # Обновляем данные карточки
+            card.task = task
+            card.update_from_task()
+
+            # Показываем карточку и задаём её позицию
             card.grid(
                 row=index,
                 column=0,
@@ -146,7 +184,10 @@ class Sidebar(ctk.CTkFrame):
                 pady=4
             )
 
-            self.cards.append(card)
+        # Скрываем карточки, которые не подходят под фильтр
+        for task_id, card in self.card_by_task.items():
+            if task_id not in visible_ids:
+                card.grid_remove()
 
         self.scroll.grid_columnconfigure(0, weight=1)
         self.update_stats(tasks)
@@ -209,3 +250,22 @@ class Sidebar(ctk.CTkFrame):
         self.work_label.configure(text=str(work))
         self.wait_label.configure(text=str(wait))
         self.close_label.configure(text=str(closed))
+
+    def remove_task(self, task):
+        task_id = id(task)
+        card = self.card_by_task.pop(task_id, None)
+
+        if card is None:
+            return
+
+        if card == self.selected_card:
+            self.selected_card = None
+
+        if card in self.cards:
+            self.cards.remove(card)
+
+        card.destroy()
+
+    def open_bulk_delete(self):
+        if self.on_bulk_delete:
+            self.on_bulk_delete()

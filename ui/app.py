@@ -6,6 +6,7 @@ import uuid
 import customtkinter as ctk
 from data.host_repository import HostRepository
 from data.report_repository import ReportRepository
+from ui.dialogs.bulk_delete_dialog import BulkDeleteDialog
 
 from data.task_repository import TaskRepository
 from ui.details_panel import DetailsPanel
@@ -42,13 +43,19 @@ class App(ctk.CTk):
         self.tasks = self.repository.load()
 
         self.save_job = None
+        self.search_job = None
+        self.search_query = ""
+        self.current_filter = "В работе"
+
+        # Подготавливаем поисковый индекс один раз
+        self.search_index = {}
+        self._rebuild_search_index()
 
         # Интерфейс
         self.build_ui()
 
-        # Загружаем список задач
-        self.sidebar.load_tasks(self.tasks)
-        self.current_filter = "Все"
+        # Загружаем задачи с учётом выбранного фильтра
+        self._apply_task_filters()
 
     def build_ui(self):
 
@@ -61,7 +68,8 @@ class App(ctk.CTk):
         self.sidebar = Sidebar(
             self,
             on_task_selected=self.on_task_selected,
-            on_filter_changed=self.filter_tasks
+            on_filter_changed=self.filter_tasks,
+            on_bulk_delete=self.open_bulk_delete
         )
 
         self.sidebar.grid(
@@ -173,7 +181,8 @@ class App(ctk.CTk):
 
         self.repository.save(self.tasks)
 
-        self.sidebar.load_tasks(self.tasks)
+        self._index_task(task)
+        self._apply_task_filters()
 
         self.details.show_task(task)
 
@@ -188,29 +197,67 @@ class App(ctk.CTk):
 
         return None
 
-    def search_tasks(self, text):
+    def _index_task(self, task):
+        """Подготавливает текст для быстрого поиска по заявке."""
+        fields = (
+            task.rf,
+            task.sd,
+            task.name,
+            task.full_name,
+        )
 
-        text = text.strip().lower()
+        self.search_index[id(task)] = " ".join(
+            str(value or "") for value in fields
+        ).casefold()
 
-        if not text:
-            self.sidebar.load_tasks(self.tasks)
-            return
+    def _rebuild_search_index(self):
+        """Создаёт поисковый индекс для всех заявок."""
+        self.search_index = {}
+
+        for task in self.tasks:
+            self._index_task(task)
+
+    def _apply_task_filters(self):
+        """Применяет поиск и фильтр статуса одновременно."""
+        query = self.search_query.strip().casefold()
+        status = self.current_filter
 
         filtered = []
 
         for task in self.tasks:
+            # Сначала проверяем статус
+            if status != "Все" and task.status != status:
+                continue
 
-            if (
-                    text in task.rf.lower()
-                    or text in task.sd.lower()
-                    or text in task.name.lower()
-                    or text in task.full_name.lower()
-            ):
-                filtered.append(task)
+            # Затем проверяем поисковый запрос
+            if query:
+                searchable_text = self.search_index.get(id(task), "")
+                if query not in searchable_text:
+                    continue
+
+            filtered.append(task)
 
         self.sidebar.load_tasks(filtered)
 
+    def search_tasks(self, text):
+        """Запускает поиск с задержкой после последнего ввода."""
+        self.search_query = text or ""
+
+        if self.search_job is not None:
+            self.after_cancel(self.search_job)
+            self.search_job = None
+
+        self.search_job = self.after(
+            250,
+            self._run_search
+        )
+
+    def _run_search(self):
+        self.search_job = None
+        self._apply_task_filters()
+
     def task_changed(self, task):
+        self._index_task(task)
 
         if self.save_job is not None:
             self.after_cancel(self.save_job)
@@ -219,9 +266,8 @@ class App(ctk.CTk):
             700,
             self.save_tasks
         )
-        self.filter_tasks(self.current_filter)
 
-        self.sidebar.update_card(task)
+        self._apply_task_filters()
 
     def save_tasks(self):
         self.repository.save(self.tasks)
@@ -229,20 +275,9 @@ class App(ctk.CTk):
         self.save_job = None
 
     def filter_tasks(self, status):
-
+        """Обновляет фильтр статуса, сохраняя поисковый запрос."""
         self.current_filter = status
-
-        if status == "Все":
-            filtered = self.tasks
-
-        else:
-            filtered = [
-                task
-                for task in self.tasks
-                if task.status == status
-            ]
-
-        self.sidebar.load_tasks(filtered)
+        self._apply_task_filters()
 
     def open_folder(self, task):
 
@@ -294,10 +329,11 @@ class App(ctk.CTk):
             shutil.rmtree(folder)
 
         self.tasks.remove(task)
+        self.sidebar.remove_task(task)
+        self.search_index.pop(id(task), None)
 
         self.repository.save(self.tasks)
-
-        self.sidebar.load_tasks(self.tasks)
+        self._apply_task_filters()
 
         self.details.clear()
 
@@ -355,3 +391,47 @@ class App(ctk.CTk):
             self,
             self.report_repository
         )
+
+    def open_bulk_delete(self):
+        BulkDeleteDialog(
+            self,
+            self.tasks,
+            on_delete=self.delete_tasks_bulk
+        )
+
+    def delete_tasks_bulk(self, selected_tasks):
+        selected_ids = {id(task) for task in selected_tasks}
+
+        # Проверяем, удаляется ли сейчас открытая заявка
+        selected_card = getattr(
+            self.sidebar, "selected_card", None
+        )
+        clear_details = (
+                selected_card is not None
+                and id(selected_card.task) in selected_ids
+        )
+
+        for task in selected_tasks:
+            folder = Path("tasks") / task.folder_id
+
+            if folder.exists():
+                shutil.rmtree(folder)
+
+            if task in self.tasks:
+                self.tasks.remove(task)
+
+            if hasattr(self, "search_index"):
+                self.search_index.pop(id(task), None)
+
+            if hasattr(self.sidebar, "remove_task"):
+                self.sidebar.remove_task(task)
+
+        self.repository.save(self.tasks)
+
+        if clear_details:
+            self.details.clear()
+
+        if hasattr(self, "_apply_task_filters"):
+            self._apply_task_filters()
+        else:
+            self.sidebar.load_tasks(self.tasks)
