@@ -1,16 +1,18 @@
-import tkinter as tk
 
+import tkinter as tk
+import tkinter.font as tkfont
 import customtkinter as ctk
 
 from ui.theme import *
 
+
 COLUMN_WEIGHTS = [
     1,  # OS
     1,  # DB
-    2,  # Instance
+    2,  # Instances
     1,  # Window
     2,  # IP
-    1   # Segment
+    1,  # Segment
 ]
 
 
@@ -19,7 +21,6 @@ class HostRow(ctk.CTkFrame):
     HIGHLIGHT_COLOR = "#4A5568"
 
     def __init__(self, master, values, index):
-
         self.normal_color = CARD if index % 2 == 0 else "#34373D"
 
         super().__init__(
@@ -29,14 +30,21 @@ class HostRow(ctk.CTkFrame):
         )
 
         self.values = values
+        self.labels = []
+        self._last_widths = {}
 
         self.build_ui()
 
+        # Пересчитываем перенос при изменении ширины таблицы
+        self.bind(
+            "<Configure>",
+            self._on_resize
+        )
+
+        self.after_idle(self.update_wrapping)
+
     def build_ui(self):
-
         columns = list(self.values.values())
-
-        # ---------- Меню ----------
 
         self.menu = tk.Menu(
             self,
@@ -53,8 +61,6 @@ class HostRow(ctk.CTkFrame):
             command=self.copy_instance
         )
 
-        # ---------- Ячейки ----------
-
         for i, value in enumerate(columns):
             weight = (
                 COLUMN_WEIGHTS[i]
@@ -68,18 +74,24 @@ class HostRow(ctk.CTkFrame):
                 uniform="hosts"
             )
 
-            # IP отображаем моноширинным шрифтом
-            font = (
+            font_tuple = (
                 ("Consolas", 12)
                 if i == 4
                 else ("Segoe UI", 12)
             )
 
+            label_font = tkfont.Font(
+                root=self,
+                font=font_tuple
+            )
+
             label = ctk.CTkLabel(
                 self,
-                text=value,
+                text=str(value or ""),
                 anchor="w",
-                font=font
+                justify="left",
+                font=font_tuple,
+                height=0
             )
 
             label.grid(
@@ -93,8 +105,98 @@ class HostRow(ctk.CTkFrame):
             label.bind("<Button-2>", self.popup)
             label.bind("<Button-3>", self.popup)
 
-    def highlight(self):
+            self.labels.append({
+                "widget": label,
+                "font": label_font,
+                "text": str(value or ""),
+                "index": i,
+            })
 
+    def _on_resize(self, event):
+        if event.width > 1:
+            self.after_idle(self.update_wrapping)
+
+    def _wrap_text(self, text, font, max_width):
+        """Переносит текст по ширине, включая длинные слова и IP."""
+        result = []
+
+        for paragraph in text.split("\n"):
+            if not paragraph:
+                result.append("")
+                continue
+
+            current = ""
+
+            for word in paragraph.split():
+                candidate = (
+                    f"{current} {word}".strip()
+                )
+
+                if font.measure(candidate) <= max_width:
+                    current = candidate
+                    continue
+
+                if current:
+                    result.append(current)
+                    current = ""
+
+                # Разбиваем даже длинные значения без пробелов
+                for char in word:
+                    candidate = current + char
+
+                    if (
+                        current
+                        and font.measure(candidate) > max_width
+                    ):
+                        result.append(current)
+                        current = char
+                    else:
+                        current = candidate
+
+            if current:
+                result.append(current)
+
+        return result or [""]
+
+    def update_wrapping(self):
+        if not self.winfo_exists():
+            return
+
+        for item in self.labels:
+            label = item["widget"]
+            font = item["font"]
+            original_text = item["text"]
+
+            width = label.winfo_width()
+
+            if width <= 1:
+                continue
+
+            if self._last_widths.get(item["index"]) == width:
+                continue
+
+            self._last_widths[item["index"]] = width
+
+            available_width = max(30, width - 12)
+
+            lines = self._wrap_text(
+                original_text,
+                font,
+                available_width
+            )
+
+            line_height = font.metrics("linespace") + 3
+            required_height = max(
+                20,
+                len(lines) * line_height + 4
+            )
+
+            label.configure(
+                text="\n".join(lines),
+                height=required_height
+            )
+
+    def highlight(self):
         self.configure(
             fg_color=self.HIGHLIGHT_COLOR
         )
@@ -107,7 +209,6 @@ class HostRow(ctk.CTkFrame):
         )
 
     def popup(self, event):
-
         self.highlight()
 
         self.menu.tk_popup(
@@ -116,7 +217,6 @@ class HostRow(ctk.CTkFrame):
         )
 
     def copy_ip(self):
-
         ip = self.values.get("IP", "")
 
         self.clipboard_clear()
@@ -124,7 +224,6 @@ class HostRow(ctk.CTkFrame):
         self.update()
 
     def copy_instance(self):
-
         instance = self.values.get("Instances", "")
 
         self.clipboard_clear()

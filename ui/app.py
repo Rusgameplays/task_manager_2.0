@@ -379,7 +379,7 @@ class App(ctk.CTk):
         if mode == "lines":
             text = "\n".join(ips)
         else:
-            text = ",".join(ips)
+            text = ", ".join(ips)
 
         self.clipboard_clear()
         self.clipboard_append(text)
