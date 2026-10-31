@@ -140,7 +140,6 @@ class HostRow(ctk.CTkFrame):
                     result.append(current)
                     current = ""
 
-                # Разбиваем даже длинные значения без пробелов
                 for char in word:
                     candidate = current + char
 
@@ -158,24 +157,37 @@ class HostRow(ctk.CTkFrame):
 
         return result or [""]
 
+
     def update_wrapping(self):
         if not self.winfo_exists():
             return
+
+
+        no_wrap_columns = {0, 5}
 
         for item in self.labels:
             label = item["widget"]
             font = item["font"]
             original_text = item["text"]
+            index = item["index"]
 
             width = label.winfo_width()
 
             if width <= 1:
                 continue
 
-            if self._last_widths.get(item["index"]) == width:
+            if self._last_widths.get(index) == width:
                 continue
 
-            self._last_widths[item["index"]] = width
+            self._last_widths[index] = width
+
+            if index in no_wrap_columns:
+
+                label.configure(
+                    text=original_text,
+                    height=font.metrics("linespace") + 4
+                )
+                continue
 
             available_width = max(30, width - 12)
 
@@ -195,6 +207,7 @@ class HostRow(ctk.CTkFrame):
                 text="\n".join(lines),
                 height=required_height
             )
+
 
     def highlight(self):
         self.configure(

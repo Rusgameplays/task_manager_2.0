@@ -38,7 +38,7 @@ class DetailsPanel(ctk.CTkFrame):
 
     def build_ui(self):
         self.grid_columnconfigure(0, weight=1)
-
+        self.grid_rowconfigure(0, weight=1)
         self.card = ctk.CTkFrame(
             self,
             fg_color=CARD,
@@ -537,7 +537,8 @@ class DetailsPanel(ctk.CTkFrame):
             sticky="nsew"
         )
 
-        self.card.grid_rowconfigure(3, weight=1)
+        self.card.grid_rowconfigure(3, weight=0)
+        self.card.grid_rowconfigure(4, weight=1)
 
         self.content.grid_columnconfigure(0, weight=0)
         self.content.grid_columnconfigure(1, weight=1)

@@ -190,7 +190,7 @@ class Sidebar(ctk.CTkFrame):
                 card.grid_remove()
 
         self.scroll.grid_columnconfigure(0, weight=1)
-        self.update_stats(tasks)
+
 
     def update_card(self, task):
 
@@ -238,18 +238,23 @@ class Sidebar(ctk.CTkFrame):
 
         return number
 
-    def update_stats(self, tasks):
 
-        total = len(tasks)
+    def update_total_count(self, tasks):
+        self.total_label.configure(text=str(len(tasks)))
 
+    def update_status_counts(self, tasks):
         work = sum(t.status == "В работе" for t in tasks)
         wait = sum(t.status == "Приостановлено" for t in tasks)
         closed = sum(t.status == "Закрыто" for t in tasks)
 
-        self.total_label.configure(text=str(total))
         self.work_label.configure(text=str(work))
         self.wait_label.configure(text=str(wait))
         self.close_label.configure(text=str(closed))
+
+    def update_stats(self, tasks):
+        self.update_total_count(tasks)
+        self.update_status_counts(tasks)
+
 
     def remove_task(self, task):
         task_id = id(task)

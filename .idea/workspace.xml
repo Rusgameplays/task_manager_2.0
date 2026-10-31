@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a35cc665-4ed1-44ee-9979-1f8f5388e563" name="Changes" comment="v2.3">
+    <list default="true" id="a35cc665-4ed1-44ee-9979-1f8f5388e563" name="Changes" comment="v2.4">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ui/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/details_panel.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/details_panel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/sidebar.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/sidebar.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/widgets/host_row.py" beforeDir="false" afterPath="$PROJECT_DIR$/widgets/host_row.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -102,7 +104,9 @@
       <workItem from="1786953699500" duration="612000" />
       <workItem from="1788245120389" duration="4000" />
       <workItem from="1791832387089" duration="1884000" />
-      <workItem from="1791910138869" duration="317000" />
+      <workItem from="1791910138869" duration="1273000" />
+      <workItem from="1791916200224" duration="578000" />
+      <workItem from="1791976543682" duration="2755000" />
     </task>
     <task id="LOCAL-00001" summary="v2.0">
       <option name="closed" value="true" />
@@ -136,7 +140,15 @@
       <option name="project" value="LOCAL" />
       <updated>1791833943430</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="v2.4">
+      <option name="closed" value="true" />
+      <created>1791910496957</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1791910496957</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -147,11 +159,12 @@
     <MESSAGE value="v2.1" />
     <MESSAGE value="v2.2&#10;- P/A and C syscard" />
     <MESSAGE value="v2.3" />
-    <option name="LAST_COMMIT_MESSAGE" value="v2.3" />
+    <MESSAGE value="v2.4" />
+    <option name="LAST_COMMIT_MESSAGE" value="v2.4" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/TaskManager2_0$app.coverage" NAME="app Coverage Results" MODIFIED="1791832446544" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ui" />
-    <SUITE FILE_PATH="coverage/TaskManager2_0$main.coverage" NAME="main Coverage Results" MODIFIED="1791910240921" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/TaskManager2_0$main.coverage" NAME="main Coverage Results" MODIFIED="1791976708261" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/TaskManager2_0$system_card.coverage" NAME="system_card Coverage Results" MODIFIED="1786954130806" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ui" />
   </component>
 </project>

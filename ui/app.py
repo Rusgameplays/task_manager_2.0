@@ -51,11 +51,10 @@ class App(ctk.CTk):
         self.search_index = {}
         self._rebuild_search_index()
 
-        # Интерфейс
         self.build_ui()
 
-        # Загружаем задачи с учётом выбранного фильтра
         self._apply_task_filters()
+        self.sidebar.update_stats(self.tasks)
 
     def build_ui(self):
 
@@ -178,6 +177,7 @@ class App(ctk.CTk):
         )
 
         self.tasks.append(task)
+        self.sidebar.update_stats(self.tasks)
 
         self.repository.save(self.tasks)
 
@@ -257,6 +257,7 @@ class App(ctk.CTk):
         self._apply_task_filters()
 
     def task_changed(self, task):
+        self.sidebar.update_status_counts(self.tasks)
         self._index_task(task)
 
         if self.save_job is not None:
@@ -271,7 +272,6 @@ class App(ctk.CTk):
 
     def save_tasks(self):
         self.repository.save(self.tasks)
-
         self.save_job = None
 
     def filter_tasks(self, status):
@@ -333,8 +333,11 @@ class App(ctk.CTk):
         self.search_index.pop(id(task), None)
 
         self.repository.save(self.tasks)
-        self._apply_task_filters()
 
+        # Обновляем счётчики после удаления
+        self.sidebar.update_stats(self.tasks)
+
+        self._apply_task_filters()
         self.details.clear()
 
     def copy_scan(self, task):
@@ -427,11 +430,16 @@ class App(ctk.CTk):
                 self.sidebar.remove_task(task)
 
         self.repository.save(self.tasks)
+        self.sidebar.update_stats(self.tasks)
 
         if clear_details:
             self.details.clear()
 
         if hasattr(self, "_apply_task_filters"):
+            # Загружаем задачи с учётом выбранного фильтра
             self._apply_task_filters()
+
+            # Считаем все задачи, независимо от фильтра
+            self.sidebar.update_stats(self.tasks)
         else:
             self.sidebar.load_tasks(self.tasks)
