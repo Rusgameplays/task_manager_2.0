@@ -12,5 +12,19 @@
         "compliance": "Запущен",
         "comment": "Сканирование АС МИР (RF) - SD",
         "folder_id": "6d98ea3b-46b8-4add-9cf7-6acac10066f7"
+    },
+    {
+        "id": "RF4324",
+        "second_id": "ff",
+        "name": "fff",
+        "full_name": "",
+        "type": "",
+        "mp8": "",
+        "secure": "Не задан",
+        "status": "В работе",
+        "pentest/audit": "Не запущен",
+        "compliance": "Не запущен",
+        "comment": "",
+        "folder_id": "2fa55e04-07de-4b8c-a206-8a5ba8b7dc18"
     }
 ]

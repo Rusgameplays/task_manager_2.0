@@ -7,6 +7,9 @@ from widgets.labeled_field import LabeledField
 from widgets.status_card import StatusCard
 from widgets.action_bar import ActionBar
 from tkinter import simpledialog
+import os
+import sys
+import subprocess
 
 
 class DetailsPanel(ctk.CTkFrame):
@@ -118,9 +121,28 @@ class DetailsPanel(ctk.CTkFrame):
             )
         )
 
+
         self.copy_rf.grid(
             row=0,
             column=1,
+            padx=(0, 25),
+            pady=(20, 5),
+            sticky="w"
+        )
+
+        # Перейти по ссылке
+
+        self.open_link_button = ctk.CTkButton(
+            self.card,
+            text="Перейти",
+            width=80,
+            height=28,
+            command=self.open_task_link
+        )
+
+        self.open_link_button.grid(
+            row=0,
+            column=2,
             padx=(0, 25),
             pady=(20, 5),
             sticky="w"
@@ -599,3 +621,59 @@ class DetailsPanel(ctk.CTkFrame):
 
         if self.on_task_changed:
             self.on_task_changed(self.current_task)
+
+    def open_task_link(self):
+
+        from tkinter import messagebox
+
+        if not self.current_task:
+            return
+
+        # Ссылки
+        rf_url = "https://rf.com"
+        dmibsd_url = "ВСТАВЬ_ССЫЛКУ_DMIBSD"
+
+        # Проверяем поле RF
+        rf_value = str(self.current_task.rf).upper()
+
+        if "DMIBSD" in rf_value:
+            url = dmibsd_url
+
+        elif "RF" in rf_value:
+            url = rf_url
+
+        else:
+            messagebox.showwarning(
+                "Переход",
+                "В поле RF не найдено обозначение RF или DMIBSD."
+            )
+            return
+
+        if not url.startswith(("http://", "https://")):
+            messagebox.showwarning(
+                "Переход",
+                "Ссылка не указана или указана неправильно."
+            )
+            return
+
+        try:
+            if sys.platform == "win32":
+                os.startfile(url)
+
+            elif sys.platform == "darwin":
+                subprocess.Popen(["open", url])
+
+            elif sys.platform.startswith("linux"):
+                subprocess.Popen(["xdg-open", url])
+
+            else:
+                messagebox.showerror(
+                    "Ошибка",
+                    "Операционная система не поддерживается."
+                )
+
+        except Exception as e:
+            messagebox.showerror(
+                "Ошибка открытия ссылки",
+                str(e)
+            )
