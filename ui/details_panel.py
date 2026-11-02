@@ -409,6 +409,8 @@ class DetailsPanel(ctk.CTkFrame):
         )
         # ---------- Менеджер ----------
 
+        # ---------- Менеджер ----------
+
         self.manager_field = LabeledField(
             self.info,
             "Менеджер",
@@ -417,10 +419,11 @@ class DetailsPanel(ctk.CTkFrame):
         )
 
         self.manager_field.grid(
-            row=1,
-            column=2,
+            row=3,
+            column=0,
+            columnspan=2,
             sticky="ew",
-            padx=(8, 0),
+            padx=(0, 8),
             pady=4
         )
 
