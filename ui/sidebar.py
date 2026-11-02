@@ -10,7 +10,8 @@ class Sidebar(ctk.CTkFrame):
             master,
             on_task_selected=None,
             on_filter_changed=None,
-            on_bulk_delete=None
+            on_bulk_delete=None,
+            on_import_registry=None
     ):
         super().__init__(
             master,
@@ -25,6 +26,7 @@ class Sidebar(ctk.CTkFrame):
         self.on_filter_changed = on_filter_changed
         self.on_task_selected = on_task_selected
         self.on_bulk_delete = on_bulk_delete
+        self.on_import_registry = on_import_registry
         self.build_ui()
 
     def build_ui(self):
@@ -91,8 +93,23 @@ class Sidebar(ctk.CTkFrame):
             sticky="ew"
         )
 
-        self.bulk_delete_button = ctk.CTkButton(
+        self.buttons_frame = ctk.CTkFrame(
             self,
+            fg_color="transparent"
+        )
+
+        self.buttons_frame.grid(
+            row=3,
+            column=0,
+            padx=15,
+            pady=(0, 10),
+            sticky="ew"
+        )
+
+        self.buttons_frame.grid_columnconfigure((0, 1), weight=1)
+
+        self.bulk_delete_button = ctk.CTkButton(
+            self.buttons_frame,
             text="Массовое удаление",
             fg_color="#C0392B",
             hover_color="#922B21",
@@ -100,10 +117,22 @@ class Sidebar(ctk.CTkFrame):
         )
 
         self.bulk_delete_button.grid(
-            row=3,
+            row=0,
             column=0,
-            padx=15,
-            pady=(0, 10),
+            padx=(0, 4),
+            sticky="ew"
+        )
+
+        self.import_registry_button = ctk.CTkButton(
+            self.buttons_frame,
+            text="Добавить реестр",
+            command=self.import_registry
+        )
+
+        self.import_registry_button.grid(
+            row=0,
+            column=1,
+            padx=(4, 0),
             sticky="ew"
         )
 
@@ -123,6 +152,10 @@ class Sidebar(ctk.CTkFrame):
 
         self.grid_rowconfigure(4, weight=1)
         self.grid_columnconfigure(0, weight=1)
+
+    def import_registry(self):
+        if self.on_import_registry:
+            self.on_import_registry()
 
     def clear(self):
         for card in self.cards:

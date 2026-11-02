@@ -2,7 +2,8 @@ import os
 import shutil
 import sys
 import uuid
-
+from tkinter import filedialog, messagebox
+from data.registry_repository import RegistryRepository
 import customtkinter as ctk
 from data.host_repository import HostRepository
 from data.report_repository import ReportRepository
@@ -40,6 +41,8 @@ class App(ctk.CTk):
         self.repository = TaskRepository("tasks.json")
         self.report_repository = ReportRepository()
         self.host_repository = HostRepository()
+        self.registry_repository = RegistryRepository()
+        self.registry = self.registry_repository.load()
         self.tasks = self.repository.load()
 
         self.save_job = None
@@ -68,7 +71,8 @@ class App(ctk.CTk):
             self,
             on_task_selected=self.on_task_selected,
             on_filter_changed=self.filter_tasks,
-            on_bulk_delete=self.open_bulk_delete
+            on_bulk_delete=self.open_bulk_delete,
+            on_import_registry=self.import_registry
         )
 
         self.sidebar.grid(
@@ -149,30 +153,25 @@ class App(ctk.CTk):
 
     def create_task(self, rf, sd, name):
 
-        template = self.find_template(name)
+        entry = self.find_registry_entry(name)
 
         task = Task(
             rf=rf,
             sd=sd,
-
             name=name,
 
-            full_name=template.full_name if template else "",
+            full_name=entry["full_name"] if entry else "",
 
             type="",
-
             mp8="",
 
-            secure=template.secure if template else "Не задан",
+            secure=entry["secure"] if entry else "Не задан",
+            manager=entry["manager"] if entry else "",
 
             status="В работе",
-
             pentest_audit="Не запущен",
-
             compliance="Не запущен",
-
             comment="",
-
             folder_id=str(uuid.uuid4())
         )
 
@@ -443,3 +442,53 @@ class App(ctk.CTk):
             self.sidebar.update_stats(self.tasks)
         else:
             self.sidebar.load_tasks(self.tasks)
+
+    def find_registry_entry(self, short_name):
+        key = self.registry_repository.normalize(short_name)
+        return self.registry.get(key)
+
+    def import_registry(self):
+        filename = filedialog.askopenfilename(
+            title="Выберите CSV-файл реестра",
+            filetypes=[("CSV-файлы", "*.csv")]
+        )
+
+        if not filename:
+            return
+
+        try:
+            self.registry = self.registry_repository.import_csv(filename)
+
+            updated = 0
+
+            for task in self.tasks:
+                entry = self.find_registry_entry(task.name)
+
+                if entry:
+                    task.full_name = entry["full_name"]
+                    task.manager = entry["manager"]
+                    task.secure = entry["secure"]
+                    updated += 1
+
+                    if (
+                            self.details.current_task is task
+                    ):
+                        self.details.show_task(task)
+
+                    self._index_task(task)
+
+            self.repository.save(self.tasks)
+            self._apply_task_filters()
+
+            messagebox.showinfo(
+                "Импорт реестра",
+                f"Реестр успешно загружен.\n"
+                f"Записей в реестре: {len(self.registry)}\n"
+                f"Обновлено задач: {updated}"
+            )
+
+        except Exception as error:
+            messagebox.showerror(
+                "Ошибка импорта",
+                f"Не удалось загрузить реестр:\n{error}"
+            )

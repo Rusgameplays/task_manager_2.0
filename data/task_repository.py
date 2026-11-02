@@ -35,7 +35,8 @@ class TaskRepository:
 
                     comment=item.get("comment", ""),
 
-                    folder_id=item.get("folder_id", "")
+                    folder_id=item.get("folder_id", ""),
+                    manager = item.get("manager", "")
                 )
             )
 
@@ -64,7 +65,8 @@ class TaskRepository:
 
                 "comment": task.comment,
 
-                "folder_id": task.folder_id
+                "folder_id": task.folder_id,
+                "manager": task.manager
 
             })
 

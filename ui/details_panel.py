@@ -88,6 +88,7 @@ class DetailsPanel(ctk.CTkFrame):
         self.secure_field.set(task.secure)
         self.status_field.set(task.status)
         self.comment.set(task.comment)
+        self.manager_field.set(task.manager)
 
         self.hosts.load(hosts or [])
 
@@ -327,6 +328,7 @@ class DetailsPanel(ctk.CTkFrame):
         self.info.grid_columnconfigure(0, weight=1)
         self.info.grid_columnconfigure(1, weight=1)
         self.info.grid_columnconfigure(2, weight=0)
+        self.info.grid_columnconfigure(3, weight=0)
 
 
         # ---------- MP8 ----------
@@ -403,6 +405,22 @@ class DetailsPanel(ctk.CTkFrame):
             row=2,
             column=1,
             sticky="ew",
+            pady=4
+        )
+        # ---------- Менеджер ----------
+
+        self.manager_field = LabeledField(
+            self.info,
+            "Менеджер",
+            copyable=True,
+            on_change=lambda value: self.update_field("manager", value)
+        )
+
+        self.manager_field.grid(
+            row=1,
+            column=2,
+            sticky="ew",
+            padx=(8, 0),
             pady=4
         )
 
@@ -496,6 +514,7 @@ class DetailsPanel(ctk.CTkFrame):
 
         self.pentest_card.set("Не запущен")
         self.compliance_card.set("Не запущен")
+        self.manager_field.set("")
 
         self.comment.set("")
 
@@ -677,3 +696,4 @@ class DetailsPanel(ctk.CTkFrame):
                 "Ошибка открытия ссылки",
                 str(e)
             )
+

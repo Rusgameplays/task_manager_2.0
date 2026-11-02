@@ -20,3 +20,4 @@ class Task:
     comment: str
 
     folder_id: str
+    manager: str = ""
