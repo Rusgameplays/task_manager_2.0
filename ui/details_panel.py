@@ -131,23 +131,6 @@ class DetailsPanel(ctk.CTkFrame):
             sticky="w"
         )
 
-        # Перейти по ссылке
-
-        self.open_link_button = ctk.CTkButton(
-            self.card,
-            text="Перейти",
-            width=80,
-            height=28,
-            command=self.open_task_link
-        )
-
-        self.open_link_button.grid(
-            row=0,
-            column=2,
-            padx=(0, 25),
-            pady=(20, 5),
-            sticky="w"
-        )
 
         # Краткое название
 
@@ -469,6 +452,7 @@ class DetailsPanel(ctk.CTkFrame):
             on_copy_scan=self.copy_scan,
             on_load_docx=self.load_docx,
             on_copy_ips=self.copy_ips,
+            on_open_link=self.open_task_link,
             on_delete=self.delete_task
         )
 

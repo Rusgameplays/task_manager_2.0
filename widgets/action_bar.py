@@ -13,7 +13,8 @@ class ActionBar(ctk.CTkFrame):
             on_delete=None,
             on_copy_scan=None,
             on_load_docx=None,
-            on_copy_ips=None
+            on_copy_ips=None,
+            on_open_link=None
     ):
         super().__init__(
             master,
@@ -25,6 +26,7 @@ class ActionBar(ctk.CTkFrame):
         self.on_copy_scan = on_copy_scan
         self.on_load_docx = on_load_docx
         self.on_copy_ips = on_copy_ips
+        self.on_open_link = on_open_link
 
         self.build_ui()
 
@@ -108,6 +110,21 @@ class ActionBar(ctk.CTkFrame):
             padx=(4, 12)
         )
 
+        self.open_link_button = ctk.CTkButton(
+            self,
+            text="Перейти",
+            width=80,
+            height=BUTTON_HEIGHT,
+            corner_radius=8,
+            command=self.open_link
+        )
+
+        self.open_link_button.grid(
+            row=0,
+            column=4,
+            padx=4
+        )
+
         self.delete_button = ctk.CTkButton(
             self,
             text="Del",
@@ -121,9 +138,13 @@ class ActionBar(ctk.CTkFrame):
 
         self.delete_button.grid(
             row=0,
-            column=4,
+            column=5,
             padx=4
         )
+
+    def open_link(self):
+        if self.on_open_link:
+            self.on_open_link()
 
     def open_folder(self):
 
