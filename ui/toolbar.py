@@ -10,7 +10,8 @@ class Toolbar(ctk.CTkFrame):
             master,
             on_new=None,
             on_search=None,
-            on_report=None
+            on_report=None,
+            on_scale_change=None
     ):
         super().__init__(
             master,
@@ -21,12 +22,13 @@ class Toolbar(ctk.CTkFrame):
         self.on_new = on_new
         self.on_search = on_search
         self.on_report = on_report
+        self.on_scale_change = on_scale_change
 
         self.build_ui()
 
     def build_ui(self):
 
-        self.grid_columnconfigure(2, weight=1)
+        self.grid_columnconfigure(4, weight=1)
 
         self.new_button = ctk.CTkButton(
             self,
@@ -57,6 +59,25 @@ class Toolbar(ctk.CTkFrame):
             padx=(0, 15),
             pady=10
         )
+        self.scale_down_button = ctk.CTkButton(
+            self,
+            text="−",
+            width=32,
+            command=lambda: self.change_scale(-0.1)
+        )
+        self.scale_down_button.grid(
+            row=0, column=2, padx=(0, 4), pady=10
+        )
+
+        self.scale_up_button = ctk.CTkButton(
+            self,
+            text="+",
+            width=32,
+            command=lambda: self.change_scale(0.1)
+        )
+        self.scale_up_button.grid(
+            row=0, column=3, padx=(0, 12), pady=10
+        )
 
         self.search = ctk.CTkEntry(
             self,
@@ -65,7 +86,7 @@ class Toolbar(ctk.CTkFrame):
 
         self.search.grid(
             row=0,
-            column=2,
+            column=4,
             sticky="ew",
             padx=(0, 15)
         )
@@ -89,3 +110,7 @@ class Toolbar(ctk.CTkFrame):
 
         if self.on_search:
             self.on_search(self.search.get())
+
+    def change_scale(self, value):
+        if self.on_scale_change:
+            self.on_scale_change(value)

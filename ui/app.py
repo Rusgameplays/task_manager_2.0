@@ -30,10 +30,11 @@ class App(ctk.CTk):
 
     def __init__(self):
         super().__init__()
+        self.ui_scale = 1.0
 
         self.title("Task Manager")
         self.geometry("1600x900")
-        self.minsize(1300, 800)
+        self.minsize(900, 600)
 
         self.configure(fg_color=BACKGROUND)
 
@@ -103,7 +104,8 @@ class App(ctk.CTk):
             self.main,
             on_new=self.new_task,
             on_search=self.search_tasks,
-            on_report=self.open_report
+            on_report=self.open_report,
+            on_scale_change=self.change_ui_scale
         )
 
         self.toolbar.grid(
@@ -492,3 +494,9 @@ class App(ctk.CTk):
                 "Ошибка импорта",
                 f"Не удалось загрузить реестр:\n{error}"
             )
+
+    def change_ui_scale(self, value):
+        self.ui_scale = max(0.7, min(1.3, self.ui_scale + value))
+
+        ctk.set_widget_scaling(self.ui_scale)
+        ctk.set_window_scaling(self.ui_scale)
